@@ -1,32 +1,52 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { getAllUserTodos } from "../services/operations/todoAPI";
+import { Link, useNavigate } from "react-router-dom";
+import { getAllUserTodos, markTodoAsComplete, markTodoAsIncomplete } from "../services/operations/todoAPI";
+import { logout } from "../services/operations/authAPI";
 
 export default function MainPage() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [todos, setTodos] = useState([]);
   const {token} = useSelector((state) => state.auth);
 
+  console.log("printing Todos, ", todos);
+
+  const fetchTodosFromAPI = async () => {
+
+    setLoading(true);
+    try {
+      const todosData = await getAllUserTodos(token);
+      setTodos(todosData); // Set the fetched todos in the state
+    } 
+    catch (error) {
+      console.error("Error fetching todos:", error);
+    }
+    setLoading(false);
+  };
+
+
   useEffect(() => {
     // Simulating fetching todos from an API
-    const fetchTodosFromAPI = async () => {
-
-      setLoading(true);
-      try {
-        const todosData = await dispatch(getAllUserTodos(token));
-        setTodos(todosData); // Set the fetched todos in the state
-      } 
-      catch (error) {
-        console.error("Error fetching todos:", error);
-      }
-      setLoading(false);
-    };
-
     fetchTodosFromAPI();
-    console.log("Printing Token -> ", token);
   }, []);
+
+
+  const handleLogout = () => {
+    dispatch(logout(navigate));
+  }
+
+  const handleTodoComplete = async(todoId) => {
+    await markTodoAsComplete(todoId, token);
+    await fetchTodosFromAPI();
+  }
+
+  const handleTodoIncomplete = async(todoId) => {
+    await markTodoAsIncomplete(todoId, token);
+    await fetchTodosFromAPI();
+  }
+  
 
   return (
     <div className="grid grid-rows-[auto 1fr auto] w-full min-h-screen gap-px">
@@ -38,8 +58,8 @@ export default function MainPage() {
           <div className="text-sm text-gray-500">March 15, 2024</div>
         </div>
         <div className="ml-auto space-x-4">
-          <button className="h-10" size="icon" variant="outline">
-            <LogOutIcon className="h-6 w-6" />
+          <button className="h-10" size="icon" variant="outline" onClick={handleLogout}>
+            <LogOutIcon className="h-6 w-6"  />
             <span className="sr-only">Logout</span>
           </button>
           <Link to="/add-todo" className="h-10" size="icon" variant="outline">
@@ -61,6 +81,7 @@ export default function MainPage() {
                   type="checkbox"
                   className="peer h-4 w-4 border"
                   id={`todo-${todo.id}`}
+                  onChange={(e) => e.target.checked ? handleTodoComplete(todo?._id) : handleTodoIncomplete(todo?._id)} 
                 />
                 <label
                   className={`flex-1 text-sm font-medium ${

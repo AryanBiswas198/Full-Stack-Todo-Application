@@ -151,7 +151,6 @@ exports.getAllUserTodos = async (req, res) => {
     
     try {
         // Assuming userId is extracted from the authenticated user
-        console.log("Printing Req -> ", req);
         const userId = req.user.id; 
 
         // Check if userId is provided
