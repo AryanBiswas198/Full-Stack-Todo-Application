@@ -57,7 +57,7 @@ exports.updateTodo = async (req, res) => {
         const { todoId } = req.body; 
 
         // Extracting updated fields from request body
-        const { title, description, dueDate } = req.body;
+        const { title, description } = req.body;
 
         // Check if TodoId is provided
         if(!todoId){
@@ -80,7 +80,7 @@ exports.updateTodo = async (req, res) => {
         const updatedFields = {};
         if (title) updatedFields.title = title;
         if (description) updatedFields.description = description;
-        if (dueDate) updatedFields.dueDate = dueDate;
+        // if (dueDate) updatedFields.dueDate = dueDate;
 
         // Find the Todo by ID and update it
         const updatedTodo = await Todo.findByIdAndUpdate(todoId, updatedFields, 

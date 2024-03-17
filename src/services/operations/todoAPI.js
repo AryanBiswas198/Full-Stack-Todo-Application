@@ -15,13 +15,15 @@ const {
 } = todoEndpoints;
 
 // Function to create a new todo
-export const createTodo = async (title, description) => {
+export const createTodo = async (title, description, token) => {
   const toastId = toast.loading("Creating todo...");
   let result = null;
   try {
     const response = await apiConnector("POST", CREATE_TODO_API, {
       title,
       description,
+    }, {
+      Authorization: `Bearer ${token}`,
     });
     console.log("CREATE TODO RESPONSE:", response);
 
@@ -40,7 +42,7 @@ export const createTodo = async (title, description) => {
 };
 
 // Function to update a todo
-export const updateTodo = async (todoId, title, description, dueDate) => {
+export const updateTodo = async (todoId, title, description, token) => {
   const toastId = toast.loading("Updating todo...");
   let result = null;
   try {
@@ -48,16 +50,18 @@ export const updateTodo = async (todoId, title, description, dueDate) => {
       todoId,
       title,
       description,
-      dueDate,
+    }, {
+      Authorization: `Bearer ${token}`,
     });
     console.log("UPDATE TODO RESPONSE:", response);
 
     if (!response?.data?.success) {
       throw new Error("Invalid response format");
     }
-    result = response.data.updatedTodo; // Store updated todo data in the result variable
+    result = response.data.updatedTodo;
     toast.success("Todo updated successfully");
-  } catch (error) {
+  } 
+  catch (error) {
     console.error("UPDATE TODO ERROR:", error);
     toast.error("Failed to update todo");
   }
