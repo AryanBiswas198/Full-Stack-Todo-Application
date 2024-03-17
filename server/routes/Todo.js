@@ -6,6 +6,7 @@ const {
     deleteTodo, 
     getAllUserTodos, 
     deleteAllUsersTodo,
+    deleteAllCompletedUserTodos,
     markComplete,
     markIncomplete
 } = require("../controllers/TodoController");
@@ -30,6 +31,9 @@ router.get("/getAllUserTodos", auth, getAllUserTodos);
 
 // Route to delete all todos of a specific user
 router.delete("/deleteAllUsersTodo", auth, deleteAllUsersTodo);
+
+// Route to delete all completed todos of a specific user
+router.delete("/deleteAllCompletedUserTodos", auth, deleteAllCompletedUserTodos);
 
 // Route to mark a todo as complete
 router.put("/markComplete", auth, markComplete);

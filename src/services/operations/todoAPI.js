@@ -9,6 +9,7 @@ const {
   DELETE_TODO_API,
   GET_ALL_USER_TODOS_API,
   DELETE_ALL_USER_TODOS_API,
+  DELETE_ALL_COMPLETED_USER_TODOS_API,
   MARK_COMPLETE_API,
   MARK_INCOMPLETE_API,
 } = todoEndpoints;
@@ -65,11 +66,13 @@ export const updateTodo = async (todoId, title, description, dueDate) => {
 };
 
 // Function to delete a single todo
-export const deleteTodo = async (todoId) => {
+export const deleteTodo = async (todoId, token) => {
   const toastId = toast.loading("Deleting todo...");
   let result = null;
   try {
-    const response = await apiConnector("DELETE", DELETE_TODO_API, { todoId });
+    const response = await apiConnector("DELETE", DELETE_TODO_API, { todoId }, {
+      Authorization: `Bearer ${token}`,
+    });
     console.log("DELETE TODO RESPONSE:", response);
 
     if (!response?.data?.success) {
@@ -78,7 +81,8 @@ export const deleteTodo = async (todoId) => {
 
     result = response.data.deletedTodo;
     toast.success("Todo deleted successfully");
-  } catch (error) {
+  } 
+  catch (error) {
     console.error("DELETE TODO ERROR:", error);
     toast.error("Failed to delete todo");
   }
@@ -96,8 +100,6 @@ export const getAllUserTodos = async (token) => {
       Authorization: `Bearer ${token}`,
     });
 
-    // const response = await apiConnector("GET", GET_ALL_USER_TODOS_API);
-
     if (!response?.data?.success) {
       throw new Error("Could not fetch user todos");
     }
@@ -111,22 +113,56 @@ export const getAllUserTodos = async (token) => {
 };
 
 // Function to delete all user todos
-export const deleteAllUserTodos = async () => {
+export const deleteAllUserTodos = async (token) => {
   const toastId = toast.loading("Deleting all todos...");
+  let result = [];
   try {
-    const response = await apiConnector("DELETE", DELETE_ALL_USER_TODOS_API);
+    const response = await apiConnector("DELETE", DELETE_ALL_USER_TODOS_API, null, {
+      Authorization: `Bearer ${token}`,
+    });
     console.log("DELETE ALL USER TODOS RESPONSE:", response);
 
     if (!response?.data?.success) {
       throw new Error("Failed to delete all todos");
     }
 
+    result = response?.data?.message;
+
     toast.success("All todos deleted successfully");
-  } catch (error) {
+  } 
+  catch (error) {
     console.log("DELETE ALL USER TODOS ERROR:", error);
     toast.error("Failed to delete all todos");
   }
   toast.dismiss(toastId);
+  return result;
+};
+
+
+// Function to delete all user todos
+export const deleteAllCompletedUserTodos = async (token) => {
+  const toastId = toast.loading("Deleting all todos...");
+  let result = [];
+  try {
+    const response = await apiConnector("DELETE", DELETE_ALL_COMPLETED_USER_TODOS_API, null, {
+      Authorization: `Bearer ${token}`,
+    });
+    console.log("DELETE ALL USER TODOS RESPONSE:", response);
+
+    if (!response?.data?.success) {
+      throw new Error("Failed to delete all todos");
+    }
+
+    result = response?.data?.message;
+
+    toast.success("All todos deleted successfully");
+  } 
+  catch (error) {
+    console.log("DELETE ALL USER TODOS ERROR:", error);
+    toast.error("Failed to delete all todos");
+  }
+  toast.dismiss(toastId);
+  return result;
 };
 
 

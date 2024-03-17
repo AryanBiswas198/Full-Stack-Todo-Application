@@ -11,7 +11,8 @@ export const todoEndpoints = {
     UPDATE_TODO_API: BASE_URL + "/todos/updateTodo",
     DELETE_TODO_API: BASE_URL + "/todos/deleteTodo",
     GET_ALL_USER_TODOS_API: BASE_URL + "/todos/getAllUserTodos",
-    DELETE_ALL_USER_TODOS_API: BASE_URL + "/todos/deleteAllUserTodo",
+    DELETE_ALL_USER_TODOS_API: BASE_URL + "/todos/deleteAllUsersTodo",
     MARK_COMPLETE_API: BASE_URL + "/todos/markComplete",
     MARK_INCOMPLETE_API: BASE_URL + "/todos/markIncomplete",
+    DELETE_ALL_COMPLETED_USER_TODOS_API: BASE_URL + "/todos/deleteAllCompletedUserTodos",
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { getAllUserTodos, markTodoAsComplete, markTodoAsIncomplete } from "../services/operations/todoAPI";
+import { deleteAllCompletedUserTodos, deleteAllUserTodos, deleteTodo, getAllUserTodos, markTodoAsComplete, markTodoAsIncomplete } from "../services/operations/todoAPI";
 import { logout } from "../services/operations/authAPI";
 
 export default function MainPage() {
@@ -10,31 +10,47 @@ export default function MainPage() {
   const [loading, setLoading] = useState(false);
   const [todos, setTodos] = useState([]);
   const {token} = useSelector((state) => state.auth);
+  const [todayDate, setTodayDate] = useState('');
 
-  console.log("printing Todos, ", todos);
+  // console.log("printing Todos, ", todos);
 
   const fetchTodosFromAPI = async () => {
 
-    setLoading(true);
-    try {
-      const todosData = await getAllUserTodos(token);
-      setTodos(todosData); // Set the fetched todos in the state
-    } 
-    catch (error) {
-      console.error("Error fetching todos:", error);
-    }
-    setLoading(false);
-  };
+      setLoading(true);
+      try {
+        const todosData = await getAllUserTodos(token);
+        setTodos(todosData); // Set the fetched todos in the state
+      } 
+      catch (error) {
+        console.error("Error fetching todos:", error);
+      }
+      setLoading(false);
+    };
 
 
   useEffect(() => {
     // Simulating fetching todos from an API
     fetchTodosFromAPI();
+
+    const today = new Date();
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    setTodayDate(today.toLocaleDateString('en-US', options));
   }, []);
 
 
   const handleLogout = () => {
     dispatch(logout(navigate));
+  }
+
+  
+
+  const handleDelete = async(todoId) => {
+    await deleteTodo(todoId, token);
+    await fetchTodosFromAPI();
+  }
+
+  const handleUpdate = async(todoId) => {
+
   }
 
   const handleTodoComplete = async(todoId) => {
@@ -46,7 +62,16 @@ export default function MainPage() {
     await markTodoAsIncomplete(todoId, token);
     await fetchTodosFromAPI();
   }
+
+  const handleDeleteAllTodos = async() => {
+    await deleteAllUserTodos(token);
+    await fetchTodosFromAPI();
+  }
   
+  const handleDeleteAllCompletedTodos = async() => {
+    await deleteAllCompletedUserTodos(token);
+    await fetchTodosFromAPI();
+  }
 
   return (
     <div className="grid grid-rows-[auto 1fr auto] w-full min-h-screen gap-px">
@@ -55,7 +80,7 @@ export default function MainPage() {
           <header className="text-3xl font-bold leading-none">
             Today's Task
           </header>
-          <div className="text-sm text-gray-500">March 15, 2024</div>
+          <div className="text-sm text-gray-500">{todayDate}</div>
         </div>
         <div className="ml-auto space-x-4">
           <button className="h-10" size="icon" variant="outline" onClick={handleLogout}>
@@ -92,9 +117,13 @@ export default function MainPage() {
                   {todo.title}
                   <p className="text-xs text-gray-400">{todo.description}</p>
                 </label>
-                <button className="h-6" size="icon" variant="outline">
+                <button className="h-6" size="icon" variant="outline" onClick={() => handleUpdate(todo?._id)} >
+                  <UpdateIcon className="h-4 w-4" />
+                  <span className="sr-only ">Update</span>
+                </button>
+                <button className="h-6" size="icon" variant="outline" onClick={() => handleDelete(todo?._id)} >
                   <TrashIcon className="h-4 w-4" />
-                  <span className="sr-only">Delete</span>
+                  <span className="sr-only ">Delete</span>
                 </button>
               </div>
             ))}
@@ -102,6 +131,12 @@ export default function MainPage() {
         )}
         <footer className="p-4 border-t grid grid-cols-1 items-center gap-4">
           <div className="text-sm text-gray-500">{todos.length} items left</div>
+          <div className="flex space-x-4 justify-center items-center">
+            <button className="text-sm text-gray-500 hover:text-blue-500 hover:underline" onClick={() => handleDeleteAllTodos()}>Delete All Todos</button>
+            <button className="text-sm text-gray-500 hover:text-blue-500 hover:underline" onClick={() => handleDeleteAllCompletedTodos()} >
+              Delete All Completed
+            </button>
+          </div>
         </footer>
       </div>
     </div>
@@ -169,3 +204,24 @@ function TrashIcon(props) {
     </svg>
   );
 }
+
+function UpdateIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M12 19h9M4.73 15l-2.26 2.26a2 2 0 0 0 0 2.83l8.49 8.5a2 2 0 0 0 2.83 0l2.26-2.26" />
+      <path d="M16 3L2 17l6 6 14-14-6-6z" />
+    </svg>
+  );
+}
+
+
+

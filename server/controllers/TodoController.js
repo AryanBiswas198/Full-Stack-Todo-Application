@@ -194,7 +194,7 @@ exports.deleteAllUsersTodo = async (req, res) => {
         const userId = req.user.id;
 
         // Delete all todos belonging to the user
-        await Todo.findOneAndDelete({ createdBy: userId });
+        await Todo.deleteMany({ createdBy: userId });
 
         // Respond with a success message
         return res.status(200).json({
@@ -209,6 +209,29 @@ exports.deleteAllUsersTodo = async (req, res) => {
         });
     }
 };
+
+// Function to delete all completed todos of a specific user
+exports.deleteAllCompletedUserTodos = async (req, res) => {
+    try {
+        const userId = req.user.id;
+
+        // Delete all completed todos belonging to the user
+        await Todo.deleteMany({ createdBy: userId, completed: true });
+
+        // Respond with a success message
+        return res.status(200).json({
+            success: true,
+            message: "All completed Todos deleted Successfully",
+        });
+    } 
+    catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+};
+
 
 
 // Mark todo as complete
