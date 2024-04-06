@@ -33,26 +33,80 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col justify-between h-screen">
-      <header className="flex items-center justify-between mt-2 p-7">
+    <div
+      className="flex flex-col justify-between min-h-screen"
+      style={{
+        backgroundImage: `url('https://images.unsplash.com/photo-1582491795316-0782a861c529?q=80&w=2944&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')`,
+        backgroundSize: "cover",
+        backgroundPosition: "bottom",
+      }}
+    >
+      <header className="flex items-center justify-between mt-4 px-4 sm:px-8 md:px-16 lg:px-20 xl:px-32 py-4">
         <Link className="flex items-center gap-3" to="/">
-          <CheckCircleIcon className="h-8 w-8" />
-          <span className="text-4xl font-semibold">Tasks</span>
+          <CheckCircleIcon className="h-10 w-10 text-black" />
+          <span
+            className="text-4xl font-semibold"
+            style={{
+                backgroundImage:
+                  "-webkit-linear-gradient(left, #8E0E00, #1F1C18)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+          >
+            Tasks
+          </span>
         </Link>
-        <nav className="ml-auto flex items-center gap-4" />
+        <nav className="ml-auto flex items-center gap-x-6 md:gap-x-10">
+          <Link
+            to="/"
+            className="flex items-center font-semibold text-lg sm:text-2xl text-black transition duration-300 ease-in-out hover:underline hover:text-white"
+          >
+            <span>Home</span>
+          </Link>
+          <Link
+            to="/todos"
+            className="flex items-center font-semibold text-lg sm:text-2xl text-black transition duration-300 ease-in-out hover:underline hover:text-white"
+          >
+            <span>Todos</span>
+          </Link>
+          <Link
+            to="/logout"
+            className="flex items-center font-semibold text-lg sm:text-2xl text-black transition duration-300 ease-in-out hover:underline hover:text-white"
+          >
+            <span>Logout</span>
+          </Link>
+        </nav>
       </header>
 
-      <main className="flex flex-col items-center justify-center gap-6">
-        <div className="text-center">
-          <h1 className="text-5xl font-bold tracking-tight mb-3">
-            Your Tasks. Organized.
+      <main className="flex flex-col items-center justify-center px-4 sm:px-8 md:px-16 lg:px-20 xl:px-32">
+        <div className="text-center mt-10">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-3">
+            Your Tasks.{" "}
+            <span
+              style={{
+                backgroundImage:
+                  "-webkit-linear-gradient(left, #8E0E00, #1F1C18)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              Organized.
+            </span>
           </h1>
-          <p className="text-richblack-400 text-lg">
+          <p
+            className="text-md md:text-lg"
+            style={{
+              backgroundImage:
+                "-webkit-linear-gradient(left, #8E0E00, #1F1C18)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
             The only to-do list you'll ever need.
           </p>
         </div>
 
-        <div className="w-full max-w-sm flex flex-col items-center gap-4">
+        <div className="w-full max-w-sm flex flex-col items-center gap-4 mt-4 sm:mt-6">
           <input
             className="w-full border border-richblack-50 rounded-lg px-4 py-2"
             placeholder="Enter your email"
@@ -68,7 +122,11 @@ export default function Home() {
           <div className="flex flex-col items-center gap-4">
             <button
               onClick={openLoginModal}
-              className={`rounded-full border-2 border-richblack-50 h-12 w-36 ${loginClicked ? 'bg-black text-white' : 'bg-white text-black hover:bg-black hover:text-white'}`}
+              className={`rounded-full border-2 border-richblack-50 h-12 w-36 ${
+                loginClicked
+                  ? "bg-black text-white"
+                  : "bg-white text-black hover:bg-black hover:text-white"
+              }`}
               variant="outline"
             >
               Login
@@ -76,7 +134,11 @@ export default function Home() {
 
             <button
               onClick={openSignupModal}
-              className={`rounded-full border-2 border-richblack-50 h-12 w-36 ${signupClicked ? 'bg-black text-white' : 'bg-white text-black hover:bg-black hover:text-white'}`}
+              className={`rounded-full border-2 border-richblack-50 h-12 w-36 ${
+                signupClicked
+                  ? "bg-black text-white"
+                  : "bg-white text-black hover:bg-black hover:text-white"
+              }`}
             >
               Sign up
             </button>
@@ -84,11 +146,6 @@ export default function Home() {
         </div>
       </main>
 
-      {/* <footer className="flex items-center justify-center bg-richblack-5 p-4">
-        <p className="text-sm text-gray-500">
-          © 2024 Aryan Biswas. All rights reserved.
-        </p>
-      </footer> */}
       <Footer />
 
       <LoginModal isOpen={showLoginModal} onClose={closeLoginModal} />
@@ -116,4 +173,3 @@ function CheckCircleIcon(props) {
     </svg>
   );
 }
-
