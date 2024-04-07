@@ -1,37 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import LoginModal from "../components/core/LoginModal";
-import SignupModal from "../components/core/SignupModal";
 import Footer from "./Footer";
 
 export default function Home() {
-  const [showLoginModal, setShowLoginModal] = useState(false);
-  const [showSignupModal, setShowSignupModal] = useState(false);
-  const [loginClicked, setLoginClicked] = useState(false);
-  const [signupClicked, setSignupClicked] = useState(false);
-
-  const openLoginModal = () => {
-    setShowLoginModal(true);
-    setLoginClicked(true); // Update state when login button is clicked
-    setSignupClicked(false); // Reset state for signup button
-  };
-
-  const closeLoginModal = () => {
-    setShowLoginModal(false);
-    setLoginClicked(false); // Reset state when modal is closed
-  };
-
-  const openSignupModal = () => {
-    setShowSignupModal(true);
-    setSignupClicked(true); // Update state when signup button is clicked
-    setLoginClicked(false); // Reset state for login button
-  };
-
-  const closeSignupModal = () => {
-    setShowSignupModal(false);
-    setSignupClicked(false); // Reset state when modal is closed
-  };
-
   return (
     <div
       className="flex flex-col justify-between min-h-screen"
@@ -47,11 +18,11 @@ export default function Home() {
           <span
             className="text-4xl font-semibold"
             style={{
-                backgroundImage:
-                  "-webkit-linear-gradient(left, #8E0E00, #1F1C18)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
+              backgroundImage:
+                "-webkit-linear-gradient(left, #8E0E00, #1F1C18)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
           >
             Tasks
           </span>
@@ -114,42 +85,33 @@ export default function Home() {
             type="email"
           />
           <button className="w-full rounded-lg bg-black text-white font-medium py-2.5 hover:opacity-80">
-            Sign up for early access
+            Sign up for daily emails...
           </button>
         </div>
 
         <div className="flex justify-center mt-10">
           <div className="flex flex-col items-center gap-4">
-            <button
-              onClick={openLoginModal}
-              className={`rounded-full border-2 border-richblack-50 h-12 w-36 ${
-                loginClicked
-                  ? "bg-black text-white"
-                  : "bg-white text-black hover:bg-black hover:text-white"
-              }`}
-              variant="outline"
-            >
-              Login
-            </button>
+            <Link to="loginPage">
+              <button
+                className={`rounded-full border-2 border-richblack-50 h-12 w-36 bg-white text-black hover:bg-black hover:text-white`}
+                variant="outline"
+              >
+                Login
+              </button>
+            </Link>
 
-            <button
-              onClick={openSignupModal}
-              className={`rounded-full border-2 border-richblack-50 h-12 w-36 ${
-                signupClicked
-                  ? "bg-black text-white"
-                  : "bg-white text-black hover:bg-black hover:text-white"
-              }`}
-            >
-              Sign up
-            </button>
+            <Link to="signupPage">
+              <button
+                className={`rounded-full border-2 border-richblack-50 h-12 w-36 bg-white text-black hover:bg-black hover:text-white`}
+              >
+                Sign up
+              </button>
+            </Link>
           </div>
         </div>
       </main>
 
       <Footer />
-
-      <LoginModal isOpen={showLoginModal} onClose={closeLoginModal} />
-      <SignupModal isOpen={showSignupModal} onClose={closeSignupModal} />
     </div>
   );
 }

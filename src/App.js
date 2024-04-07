@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import "./App.css";
-import SignupModal from "./components/core/SignupModal";
-import LoginModal from "./components/core/LoginModal";
+import SignupPage from "./components/core/SignupPage";
+import LoginPage from "./components/core/LoginPage";
 import VerifyEmail from "./pages/VerifyEmail";
 import MainPage from "./pages/MainPage";
 
@@ -13,8 +13,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home/>} />
 
-        <Route path="signup" element={<SignupModal/>} />
-        <Route path="login" element={<LoginModal />} />
+        <Route path="signupPage" element={<SignupPage/>} />
+        <Route path="loginPage" element={<LoginPage />} />
         <Route path="verify-email" element={<VerifyEmail />} />
         <Route path="main-page" element={<MainPage />} />
       </Routes>

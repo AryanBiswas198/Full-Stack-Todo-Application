@@ -6,7 +6,7 @@ import { setSignupData } from "../../slices/authSlice";
 import toast from "react-hot-toast";
 import {sendOtp} from "../../services/operations/authAPI";
 
-const SignupModal = ({ isOpen, onClose }) => {
+const SignupPage = ({ isOpen, onClose }) => {
   const {
     register,
     handleSubmit,
@@ -28,7 +28,7 @@ const SignupModal = ({ isOpen, onClose }) => {
 
   return (
     <div
-      className={isOpen ? "block" : "hidden"}
+      className={isOpen ? "block" : "block"}
       style={{
         position: "fixed",
         top: "0",
@@ -119,4 +119,4 @@ const SignupModal = ({ isOpen, onClose }) => {
   );
 };
 
-export default SignupModal;
+export default SignupPage;
