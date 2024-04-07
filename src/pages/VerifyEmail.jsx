@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signUp, sendOtp } from "../services/operations/authAPI";
-
+import ThinkMemoji from "../assets/ThinkMemoji.png"; // Import the ThinkMemoji image
 
 export default function VerifyEmail() {
-
   const [otp, setOtp] = useState("");
   const { signupData } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -35,35 +34,31 @@ export default function VerifyEmail() {
   };
 
   const handleResend = () => {
-    // Implement logic to resend the verification code
     dispatch(sendOtp(signupData.email, navigate));
   };
 
-
   const handleClose = () => {
-    // Implement logic to close the verification panel
     navigate("/");
   };
 
   return (
-    <div className="flex h-screen w-full items-center justify-center bg-gray-100 p-4">
-      <div className="mx-auto w-full max-w-lg rounded-lg bg-white p-8 shadow-lg">
-        <div className="flex items-center justify-between pb-6">
-          <h2 className="text-2xl font-semibold">Two-Step Verification</h2>
-          <button
-            className="text-gray-400 hover:text-gray-600"
-            onClick={handleClose}
-          >
-            <PanelTopCloseIcon className="h-6 w-6" />
-          </button>
-        </div>
+    <div className="bg-black min-h-screen flex flex-col md:flex-row items-center justify-center p-4">
+      <div className="order-1 md:order-2 md:w-66 md:mr-20 mb-10 md:mb-0 flex items-center justify-center">
+        <img
+          src={ThinkMemoji}
+          alt="Think Memoji"
+          className="w-64 md:w-full"
+          style={{ margin: "0 auto" }}
+        />
+      </div>
+      <div className="order-2 md:order-1 bg-black p-8 md:p-12 rounded-2xl w-full md:max-w-lg shadow-lg-purple md:mr-14">
+        <h2 className="font-bold text-white text-4xl mb-6">
+          Two-Step Verification
+        </h2>
         <div className="mb-4 flex flex-col items-center">
-          <SmartphoneIcon className="mb-3 h-12 w-12 text-blue-500" />
-          <p className="mb-2 text-center text-sm text-gray-600">
-            {
-              `Please enter the OTP (one-time password) to verify your account. A
-            Code has been sent to ${signupData.email}`
-            }
+          <SmartphoneIcon className="mb-3 h-12 w-12 text-white" />
+          <p className="my-4 text-center text-sm text-white">
+            {`Please enter the OTP (one-time password) to verify your account. A Code has been sent to ${signupData.email}`}
           </p>
         </div>
         <form onSubmit={handleSubmit}>
@@ -73,56 +68,32 @@ export default function VerifyEmail() {
               type="text"
               value={otp}
               onChange={handleOtpChange}
-              className="w-full px-4 py-2 rounded-md border border-richblack-50  focus:outline-none"
+              className="w-full px-4 py-3 mb-1 bg-richblack-900 rounded-md border border-richblack-50 focus:outline-none text-white"
             />
           </div>
           <div className="mb-4">
             <button
               type="submit"
-              className="w-full border font-semibold border-richblack-50 bg-white text-black hover:bg-black hover:text-white px-4 py-2 rounded-md"
+              className="w-full my-3 border font-semibold border-richblack-50 bg-white text-black hover:bg-black hover:text-white px-4 py-2 rounded-md"
             >
               Verify
             </button>
           </div>
         </form>
-
         <div className="flex flex-col items-center space-y-2">
           <button
-            className="text-sm text-blue-600 hover:underline"
+            className="text-sm text-white my-2"
             onClick={handleResend}
           >
-            Not received your code? Resend code
+            Not received your code? 
+            <span style={{ background: "linear-gradient(to right, #667EEA, #764BA2)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}> Resend Code</span>
           </button>
-          <Link
-            to="/"
-            className="text-sm text-blue-600 hover:underline"
-          >
+          <Link to="/" className="text-sm text-white hover:underline">
             Back To SignUp
           </Link>
         </div>
       </div>
     </div>
-  );
-}
-
-function PanelTopCloseIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
-      <line x1="3" x2="21" y1="9" y2="9" />
-      <path d="m9 16 3-3 3 3" />
-    </svg>
   );
 }
 
