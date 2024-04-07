@@ -1,12 +1,14 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setSignupData } from "../../slices/authSlice";
+import { sendOtp } from "../../services/operations/authAPI";
 import toast from "react-hot-toast";
-import {sendOtp} from "../../services/operations/authAPI";
+import { useNavigate } from "react-router-dom";
+import SignupMemoji from "../../assets/SignupMemoji.png"; // Import the SignupMemoji image
 
-const SignupPage = ({ isOpen, onClose }) => {
+const SignupPage = () => {
   const {
     register,
     handleSubmit,
@@ -16,103 +18,113 @@ const SignupPage = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
 
   const onSubmit = async (data) => {
-
-    if(data.password !== data.confirmPassword){
+    if (data.password !== data.confirmPassword) {
       toast.error("Passwords do not match");
       return;
     }
-
     dispatch(setSignupData(data)); // Store signup data in the slice
     dispatch(sendOtp(data.email, navigate));
   };
 
   return (
-    <div
-      className={isOpen ? "block" : "block"}
-      style={{
-        position: "fixed",
-        top: "0",
-        left: "0",
-        width: "100%",
-        height: "100%",
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
-        zIndex: "999",
-        overflow: "auto",
-      }}
-    >
-      <div
-        style={{
-          backgroundColor: "#fff",
-          margin: "10% auto",
-          padding: "20px",
-          borderRadius: "30px",
-          maxWidth: "400px",
-        }}
-      >
-        <span
-          style={{
-            cursor: "pointer",
-            float: "right",
-            fontSize: "20px",
-            fontWeight: "bold",
-          }}
-          onClick={onClose}
-        >
-          &times;
-        </span>
-        <h2 style={{ textAlign: "center", marginBottom: "20px" }}>Sign Up</h2>
-        <form onSubmit={handleSubmit(onSubmit)}>
+    <div className="bg-black min-h-screen flex flex-col md:flex-row items-center justify-center p-4">
+      <div className="md:w-66 md:mr-20 mb-10 md:mb-0 ">
+        {/* Adjusted width and margin for mobile and desktop */}
+        <img
+          src={SignupMemoji}
+          alt="Signup Memoji"
+          className="w-64 md:w-full"
+          style={{ margin: "0 auto" }}
+        />
+      </div>
+      <div className="bg-richblack-900 p-8 md:p-12 rounded-2xl w-full md:max-w-md shadow-lg-purple">
+        {/* Adjusted width to 80 Tailwind CSS units */}
+        <h2 className="font-bold text-white text-4xl mb-6">Sign Up</h2>
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+          {/* Adjusted height to 96 Tailwind CSS units */}
           <input
             type="text"
             {...register("firstName", { required: true })}
-            placeholder="First Name"
-            className="w-full px-4 py-2 mb-4 border border-richblack-50 rounded-md focus:outline-none focus:border-blue-500"
+            placeholder="Enter your first name"
+            className="w-full px-4 py-3 mb-7 bg-richblack-900 text-white border border-pure-greys-5 rounded-md focus:outline-none"
+            style={{ borderWidth: ".1px" }}
           />
           {errors.firstName && (
-            <span className="text-red-500">First Name is required</span>
+            <span className="text-white">First Name is required</span>
           )}
           <input
             type="text"
             {...register("lastName", { required: true })}
-            placeholder="Last Name"
-            className="w-full px-4 py-2 mb-4 border border-richblack-50 rounded-md focus:outline-none focus:border-blue-500"
+            placeholder="Enter your last name"
+            className="w-full px-4 py-3 mb-7 bg-richblack-900 text-white border border-pure-greys-5 rounded-md focus:outline-none"
+            style={{ borderWidth: ".1px" }}
           />
           {errors.lastName && (
-            <span className="text-red-500">Last Name is required</span>
+            <span className="text-white">Last Name is required</span>
           )}
           <input
             type="email"
             {...register("email", { required: true })}
-            placeholder="Email"
-            className="w-full px-4 py-2 mb-4 border border-richblack-50 rounded-md focus:outline-none focus:border-blue-500"
+            placeholder="Enter you email"
+            className="w-full px-4 py-3 mb-7 bg-richblack-900 text-white border border-pure-greys-5 rounded-md focus:outline-none"
+            style={{ borderWidth: ".1px" }}
           />
           {errors.email && (
-            <span className="text-red-500">Email is required</span>
+            <span className="text-white">Email is required</span>
           )}
           <input
             type="password"
             {...register("password", { required: true })}
-            placeholder="Password"
-            className="w-full px-4 py-2 mb-4 border border-richblack-50 rounded-md focus:outline-none focus:border-blue-500"
+            placeholder="Enter your password"
+            className="w-full px-4 py-3 mb-7 bg-richblack-900 text-white border border-pure-greys-5 rounded-md focus:outline-none"
+            style={{ borderWidth: ".1px" }}
           />
           {errors.password && (
-            <span className="text-red-500">Password is required</span>
+            <span className="text-white">Password is required</span>
           )}
           <input
             type="password"
             {...register("confirmPassword", { required: true })}
-            placeholder="Confirm Password"
-            className="w-full px-4 py-2 mb-4 border border-richblack-50 rounded-md focus:outline-none focus:border-blue-500"
+            placeholder="Please confirm the password"
+            className="w-full px-4 py-3 mb-11 bg-richblack-900 text-white border border-pure-greys-5 rounded-md focus:outline-none"
+            style={{ borderWidth: ".1px" }}
           />
           {errors.confirmPassword && (
-            <span className="text-red-500">Confirm Password is required</span>
+            <span className="text-white">Confirm Password is required</span>
           )}
           <button
             type="submit"
-            className="w-full px-4 py-2 mb-2 border border-richblack-50 bg-white text-black hover:bg-black hover:text-white font-semibold rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 mb-2 border border-black text-white font-semibold rounded-md focus:outline-none transition-all duration-300 ease-in-out"
+            style={{
+              background: "linear-gradient(to right, #667EEA, #764BA2)",
+              backgroundSize: "200% auto",
+              backgroundPosition: "right center",
+            }}
+            onMouseEnter={(e) =>
+              (e.target.style.backgroundPosition = "right center")
+            }
+            onMouseLeave={(e) =>
+              (e.target.style.backgroundPosition = "left center")
+            }
           >
             Sign Up
           </button>
+          <p className="text-center my-2 text-white py-2">or</p>
+          <h2 className="text-center text-white mb-6">
+            Already have an account?
+            <Link to="/loginPage">
+              <span
+                style={{
+                  background: "linear-gradient(to right, #667EEA, #764BA2)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                {" "}
+                Login
+              </span>
+            </Link>
+          </h2>
         </form>
       </div>
     </div>

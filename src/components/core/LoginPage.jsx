@@ -27,7 +27,8 @@ const LoginPage = () => {
         <img
           src={LoginMemoji}
           alt="Login Memoji"
-          className="w-64 md:w-full" // Adjusted width for mobile and desktop
+          className="w-64 md:w-full"
+          style={{ margin: '0 auto' }} // Adjusted width for mobile and desktop
         />
       </div>
       <div className="bg-richblack-900 p-8 md:p-12 rounded-2xl w-full md:max-w-md shadow-lg-purple"> {/* Adjusted width to 80 Tailwind CSS units */}
