@@ -88,7 +88,7 @@ export default function VerifyEmail() {
             Not received your code? 
             <span style={{ background: "linear-gradient(to right, #667EEA, #764BA2)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}> Resend Code</span>
           </button>
-          <Link to="/" className="text-sm text-white hover:underline">
+          <Link to="/signupPage" className="text-sm text-white hover:underline">
             Back To SignUp
           </Link>
         </div>
