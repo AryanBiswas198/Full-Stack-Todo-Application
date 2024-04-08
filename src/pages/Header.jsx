@@ -25,13 +25,13 @@ const Header = () => {
           <span>Home</span>
         </Link>
         <Link
-          to="/todos"
+          to="/"
           className="flex items-center font-semibold text-lg sm:text-2xl text-black transition duration-300 ease-in-out hover:underline hover:text-white"
         >
           <span>Todos</span>
         </Link>
         <Link
-          to="/logout"
+          to="/"
           className="flex items-center font-semibold text-lg sm:text-2xl text-black transition duration-300 ease-in-out hover:underline hover:text-white"
         >
           <span>Logout</span>

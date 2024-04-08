@@ -77,10 +77,10 @@ export default function MainPage() {
   };
 
   return (
-    <div className="bg-black min-h-screen flex flex-col items-center justify-center pt-28 px-28 pb-5">
+    <div className="bg-black min-h-screen flex flex-col items-center justify-center pt-12 sm:pt-28 px-5 md:px-10 lg:px-20 pb-5">
       <div className="flex items-center justify-between w-full px-6 py-4">
         <div className="space-y-2">
-          <h1 className="text-5xl font-bold leading-none text-white mb-3">
+          <h1 className="text-3xl sm:text-5xl font-bold leading-none text-white mb-3">
             Create a
             <span
               style={{
@@ -97,16 +97,14 @@ export default function MainPage() {
           <p className="text-lg text-white">{todayDate}</p>
         </div>
         <div className="flex items-center space-x-6">
-          {" "}
-          {/* Updated line */}
           <button
             onClick={handleLogout}
-            className="h-10 mb-2.2 mr-3"
+            className="h-8 sm:h-10 mb-2.2 mr-3"
             size="icon"
             variant="outline"
             title="Log Out"
           >
-            <LogOutIcon className="h-6 w-6 text-white" />
+            <LogOutIcon className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
           </button>
 
           <Link
@@ -127,15 +125,22 @@ export default function MainPage() {
             }}
             title="Add Todo"
           >
-            <PlusIcon className="h-8 w-8 mr-1 text-white" />
+            <PlusIcon className="h-6 sm:h-8 w-6 sm:w-8 mr-1 text-white" />
           </Link>
         </div>
       </div>
 
-      <main className="flex-1 w-full px-14 py-4">
+      <main
+        className="flex-1 w-full px-2 sm:px-14 py-2 my-5 sm:my-10 rounded-4xl"
+        style={{
+          WebkitBoxShadow: "0px 0px 170px -57px rgba(156,83,230,1)",
+          MozBoxShadow: "0px 0px 170px -57px rgba(156,83,230,1)",
+          boxShadow: "0px 0px 170px -57px rgba(156,83,230,1)",
+        }}
+      >
         <div className="flex flex-col gap-px">
           {todos.length === 0 ? (
-            <div className="py-28 text-center text-white font-semibold text-lg flex flex-col">
+            <div className="py-20 sm:py-28 text-center text-white font-semibold text-lg flex flex-col">
               You do not have any pending work, create a new Todo now
               <button
                 onClick={() => {
@@ -148,7 +153,7 @@ export default function MainPage() {
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 gap-4 pt-10">
+            <div className="grid grid-cols-1 gap-4 sm:py-10">
               {todos.map((todo) => (
                 <div key={todo.id} className="p-4 rounded-xl bg-richblack-900">
                   <div className="flex items-center space-x-4 py-1.5 px-4">
@@ -163,7 +168,7 @@ export default function MainPage() {
                       }
                     />
                     <label
-                      className={`flex-1 text-2xl font-semibold ${
+                      className={`flex-1 text-sm sm:text-2xl font-semibold ${
                         todo.completed
                           ? "line-through text-white"
                           : "text-white"
@@ -171,12 +176,12 @@ export default function MainPage() {
                       htmlFor={`todo-${todo.id}`}
                     >
                       {todo.title}
-                      <p className="text-sm font-semibold text-pure-greys-200">
+                      <p className="text-xs sm:text-sm font-semibold text-pure-greys-200">
                         {todo.description}
                       </p>
                     </label>
                     <button
-                      className="h-6"
+                      className="h-6 sm:h-8"
                       size="icon"
                       variant="outline"
                       onClick={() => {
@@ -186,17 +191,17 @@ export default function MainPage() {
                       }}
                       title="Update Todo"
                     >
-                      <UpdateIcon className="h-5.5 w-6 mr-5 text-white" />
+                      <UpdateIcon className="h-5.5 sm:h-6 w-6 sm:w-7 mr-5 text-white" />
                       <span className="sr-only">Update</span>
                     </button>
                     <button
-                      className="h-6"
+                      className="h-6 sm:h-8"
                       size="icon"
                       variant="outline"
                       onClick={() => handleDelete(todo?._id)}
                       title="Delete Todo"
                     >
-                      <TrashIcon className="h-5.5 w-6 text-white" />
+                      <TrashIcon className="h-5.5 sm:h-6 w-6 sm:w-7 text-white" />
                       <span className="sr-only">Delete</span>
                     </button>
                   </div>
@@ -208,19 +213,19 @@ export default function MainPage() {
       </main>
 
       <footer className="w-full px-6 py-4 border-t border-gray-700">
-        <div className="flex items-center justify-between">
-          <p className="text-lg pt-16 font-semibold text-white">
+        <div className="flex flex-col sm:flex-row items-center justify-between">
+          <p className="text-lg sm:text-xl py-16 font-semibold text-white">
             {todos.length} items left
           </p>
-          <div className="flex space-x-10">
+          <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
             <button
-              className="text-md font-medium text-white hover:text-blue-100 hover:underline"
+              className="text-sm sm:text-md font-medium text-white hover:text-blue-100 hover:underline"
               onClick={() => handleDeleteAllTodos()}
             >
               Delete All Todos
             </button>
             <button
-              className="text-md font-medium text-white hover:text-blue-100 hover:underline"
+              className="text-sm sm:text-md font-medium text-white hover:text-blue-100 hover:underline"
               onClick={() => handleDeleteAllCompletedTodos()}
             >
               Delete All Completed
