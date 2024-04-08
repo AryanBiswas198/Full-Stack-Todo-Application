@@ -1,159 +1,264 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { deleteAllCompletedUserTodos, deleteAllUserTodos, deleteTodo, getAllUserTodos, markTodoAsComplete, markTodoAsIncomplete } from "../services/operations/todoAPI";
+import {
+  deleteAllCompletedUserTodos,
+  deleteAllUserTodos,
+  deleteTodo,
+  getAllUserTodos,
+  markTodoAsComplete,
+  markTodoAsIncomplete,
+} from "../services/operations/todoAPI";
 import { logout } from "../services/operations/authAPI";
 import AddTodoForm from "../components/core/AddTodoForm";
-import Footer from "./Footer";
 
 export default function MainPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [todos, setTodos] = useState([]);
-  const {token} = useSelector((state) => state.auth);
-  const [todayDate, setTodayDate] = useState('');
+  const { token } = useSelector((state) => state.auth);
+  const [todayDate, setTodayDate] = useState("");
   const [showAddTodoForm, setShowAddTodoForm] = useState(false);
   const [isAdd, setIsAdd] = useState(false);
   const [todoId, setTodoId] = useState(null);
 
-
   const fetchTodosFromAPI = async () => {
-      setLoading(true);
-      try {
-        const todosData = await getAllUserTodos(token);
-        setTodos(todosData); // Set the fetched todos in the state
-      } 
-      catch (error) {
-        console.error("Error fetching todos:", error);
-      }
-      setLoading(false);
-    };
-
+    setLoading(true);
+    try {
+      const todosData = await getAllUserTodos(token);
+      setTodos(todosData); // Set the fetched todos in the state
+    } catch (error) {
+      console.error("Error fetching todos:", error);
+    }
+    setLoading(false);
+  };
 
   useEffect(() => {
     fetchTodosFromAPI();
 
     const today = new Date();
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    setTodayDate(today.toLocaleDateString('en-US', options));
+    const options = {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+    setTodayDate(today.toLocaleDateString("en-US", options));
   }, []);
-
 
   const handleLogout = () => {
     dispatch(logout(navigate));
-  }
+  };
 
-  const handleDelete = async(todoId) => {
+  const handleDelete = async (todoId) => {
     await deleteTodo(todoId, token);
     await fetchTodosFromAPI();
-  }
+  };
 
-  const handleUpdate = async(todoId) => {
-
-  }
-
-  const handleTodoComplete = async(todoId) => {
+  const handleTodoComplete = async (todoId) => {
     await markTodoAsComplete(todoId, token);
     await fetchTodosFromAPI();
-  }
+  };
 
-  const handleTodoIncomplete = async(todoId) => {
+  const handleTodoIncomplete = async (todoId) => {
     await markTodoAsIncomplete(todoId, token);
     await fetchTodosFromAPI();
-  }
+  };
 
-  const handleDeleteAllTodos = async() => {
+  const handleDeleteAllTodos = async () => {
     await deleteAllUserTodos(token);
     await fetchTodosFromAPI();
-  }
-  
-  const handleDeleteAllCompletedTodos = async() => {
+  };
+
+  const handleDeleteAllCompletedTodos = async () => {
     await deleteAllCompletedUserTodos(token);
     await fetchTodosFromAPI();
-  }
+  };
 
   return (
-    <div className="grid grid-rows-[auto 1fr auto] w-full min-h-screen gap-px px-6">
-      <div className="flex items-center p-4">
+    <div className="bg-black min-h-screen flex flex-col items-center justify-center pt-28 px-28 pb-5">
+      <div className="flex items-center justify-between w-full px-6 py-4">
         <div className="space-y-2">
-          <header className="text-5xl font-bold leading-none">
-            Today's Task
-          </header>
-          <div className="text-md text-gray-500 ml-1">{todayDate}</div>
+          <h1 className="text-5xl font-bold leading-none text-white mb-3">
+            Create a
+            <span
+              style={{
+                background: "linear-gradient(to right, #667EEA, #764BA2)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              {" "}
+              Todo{" "}
+            </span>
+            Now 🥰{"   "}👻
+          </h1>
+          <p className="text-lg text-white">{todayDate}</p>
         </div>
-        <div className="ml-auto space-x-4">
-          <button className="h-10 mb-6" size="icon" variant="outline" onClick={handleLogout}>
-            <LogOutIcon className="h-6 w-6"  />
-            <span className="sr-only">Logout</span>
+        <div className="flex items-center space-x-6">
+          {" "}
+          {/* Updated line */}
+          <button
+            onClick={handleLogout}
+            className="h-10 mb-2.2 mr-3"
+            size="icon"
+            variant="outline"
+            title="Log Out"
+          >
+            <LogOutIcon className="h-6 w-6 text-white" />
           </button>
-          <Link className="h-10" size="icon" variant="outline" onClick={() => {
-            setShowAddTodoForm(true);
-            setIsAdd(true);
-            }}>
-            <PlusIcon className="h-6 w-6 mr-1" />
-            <span className="sr-only">Add</span>
+
+          <Link
+            to="#"
+            className=""
+            size="icon"
+            variant="outline"
+            onClick={() => {
+              setShowAddTodoForm(true);
+              setIsAdd(true);
+            }}
+            style={{
+              background: "linear-gradient(to right, #667EEA, #764BA2)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              padding: "0.25rem 0.5rem",
+              borderRadius: "0.375rem",
+            }}
+            title="Add Todo"
+          >
+            <PlusIcon className="h-8 w-8 mr-1 text-white" />
           </Link>
         </div>
       </div>
-      <div className="flex flex-col gap-px">
-        {todos.length === 0 ? (
-          <div className="p-5 text-center font-semibold text-lg flex flex-col">
-            You do not have any pending work, create a new Todo now
-            <button onClick={() => {
-              setShowAddTodoForm(true);
-              setIsAdd(true);
-            }} className="mt-6 mx-auto border border-richblack-50 hover:bg-black hover:opacity-70 hover:text-white rounded-lg px-4 py-2 bg-indigo-600 text-black ">
-              Create Now
-            </button>
-          </div>
-        ) : (
-          <div className="p-4 grid grid-cols-1 items-start gap-4 border-t border-b border-richblack-50">
-            {todos.map((todo) => (
-              <div key={todo.id} className="flex items-center space-x-4">
-                <input
-                  type="checkbox"
-                  className="peer h-4 w-4 border border-richblack-50"
-                  id={`todo-${todo.id}`}
-                  onChange={(e) => e.target.checked ? handleTodoComplete(todo?._id) : handleTodoIncomplete(todo?._id)} 
-                />
-                <label
-                  className={`flex-1 text-lg font-semibold ${
-                    todo.completed ? "line-through" : ""
-                  }`}
-                  htmlFor={`todo-${todo.id}`}
-                >
-                  {todo.title}
-                  <p className="text-xs text-gray-400">{todo.description}</p>
-                </label>
-                <button className="h-6" size="icon" variant="outline" onClick={() => {
+
+      <main className="flex-1 w-full px-14 py-4">
+        <div className="flex flex-col gap-px">
+          {todos.length === 0 ? (
+            <div className="py-28 text-center text-white font-semibold text-lg flex flex-col">
+              You do not have any pending work, create a new Todo now
+              <button
+                onClick={() => {
                   setShowAddTodoForm(true);
-                  setIsAdd(false);
-                  setTodoId(todo?._id);
-                }} >
-                  <UpdateIcon className="h-4.5 w-5" />
-                  <span className="sr-only ">Update</span>
-                </button>
-                <button className="h-6" size="icon" variant="outline" onClick={() => handleDelete(todo?._id)} >
-                  <TrashIcon className="h-4.5 w-5" />
-                  <span className="sr-only ">Delete</span>
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
-        <footer className="p-4 grid grid-cols-1 items-center gap-4">
-          <div className="text-lg pt-16 font-semibold text-gray-500">{todos.length} items left</div>
-          <div className="flex space-x-10 justify-center items-center">
-            <button className="text-md font-medium text-gray-500 hover:text-blue-500 hover:underline" onClick={() => handleDeleteAllTodos()}>Delete All Todos</button>
-            <button className="text-md font-medium text-gray-500 hover:text-blue-500 hover:underline" onClick={() => handleDeleteAllCompletedTodos()} >
+                  setIsAdd(true);
+                }}
+                className="mt-6 mx-auto border border-richblack-50 hover:bg-black hover:opacity-70 hover:text-white rounded-lg px-4 py-2 bg-indigo-600 text-white "
+              >
+                Create Now
+              </button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-4 pt-10">
+              {todos.map((todo) => (
+                <div key={todo.id} className="p-4 rounded-xl bg-richblack-900">
+                  <div className="flex items-center space-x-4 py-1.5 px-4">
+                    <input
+                      type="checkbox"
+                      className="peer h-4 w-4 border border-richblack-50"
+                      id={`todo-${todo.id}`}
+                      onChange={(e) =>
+                        e.target.checked
+                          ? handleTodoComplete(todo?._id)
+                          : handleTodoIncomplete(todo?._id)
+                      }
+                    />
+                    <label
+                      className={`flex-1 text-2xl font-semibold ${
+                        todo.completed
+                          ? "line-through text-white"
+                          : "text-white"
+                      }`}
+                      htmlFor={`todo-${todo.id}`}
+                    >
+                      {todo.title}
+                      <p className="text-sm font-semibold text-pure-greys-200">
+                        {todo.description}
+                      </p>
+                    </label>
+                    <button
+                      className="h-6"
+                      size="icon"
+                      variant="outline"
+                      onClick={() => {
+                        setShowAddTodoForm(true);
+                        setIsAdd(false);
+                        setTodoId(todo?._id);
+                      }}
+                      title="Update Todo"
+                    >
+                      <UpdateIcon className="h-5.5 w-6 mr-5 text-white" />
+                      <span className="sr-only">Update</span>
+                    </button>
+                    <button
+                      className="h-6"
+                      size="icon"
+                      variant="outline"
+                      onClick={() => handleDelete(todo?._id)}
+                      title="Delete Todo"
+                    >
+                      <TrashIcon className="h-5.5 w-6 text-white" />
+                      <span className="sr-only">Delete</span>
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </main>
+
+      <footer className="w-full px-6 py-4 border-t border-gray-700">
+        <div className="flex items-center justify-between">
+          <p className="text-lg pt-16 font-semibold text-white">
+            {todos.length} items left
+          </p>
+          <div className="flex space-x-10">
+            <button
+              className="text-md font-medium text-white hover:text-blue-100 hover:underline"
+              onClick={() => handleDeleteAllTodos()}
+            >
+              Delete All Todos
+            </button>
+            <button
+              className="text-md font-medium text-white hover:text-blue-100 hover:underline"
+              onClick={() => handleDeleteAllCompletedTodos()}
+            >
               Delete All Completed
             </button>
           </div>
-        </footer>
-      </div>
-      {showAddTodoForm && <AddTodoForm showAddTodoForm={showAddTodoForm} setShowAddTodoForm={setShowAddTodoForm} fetchTodosFromAPI={fetchTodosFromAPI} isAdd={isAdd} todoId={todoId} />}
+        </div>
+      </footer>
+
+      {showAddTodoForm && (
+        <AddTodoForm
+          showAddTodoForm={showAddTodoForm}
+          setShowAddTodoForm={setShowAddTodoForm}
+          fetchTodosFromAPI={fetchTodosFromAPI}
+          isAdd={isAdd}
+          todoId={todoId}
+        />
+      )}
     </div>
+  );
+}
+
+function CheckCircleIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+      <polyline points="22 4 12 14.01 9 11.01" />
+    </svg>
   );
 }
 
@@ -183,17 +288,24 @@ function PlusIcon(props) {
     <svg
       {...props}
       xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
+      width="60" // Adjust the width as needed
+      height="60" // Adjust the height as needed
+      viewBox="0 0 60 60" // Larger viewBox to make the icon bigger within the container
       fill="none"
       stroke="currentColor"
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      style={{
+        background: "linear-gradient(to right, #667EEA, #764BA2)",
+        borderRadius: "8px", // Adjust the border radius as needed
+        padding: "0px", // Adjust the padding as needed
+      }}
     >
-      <path d="M5 12h14" />
-      <path d="M12 5v14" />
+      <path d="M15 30h30" />{" "}
+      {/* Adjust the path to position the smaller icon */}
+      <path d="M30 15v30" />{" "}
+      {/* Adjust the path to position the smaller icon */}
     </svg>
   );
 }
@@ -236,6 +348,3 @@ function UpdateIcon(props) {
     </svg>
   );
 }
-
-
-
