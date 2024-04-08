@@ -97,16 +97,6 @@ export default function MainPage() {
           <p className="text-lg text-white">{todayDate}</p>
         </div>
         <div className="flex items-center space-x-6">
-          <button
-            onClick={handleLogout}
-            className="h-8 sm:h-10 mb-2.2 mr-3"
-            size="icon"
-            variant="outline"
-            title="Log Out"
-          >
-            <LogOutIcon className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
-          </button>
-
           <Link
             to="#"
             className=""
@@ -127,6 +117,15 @@ export default function MainPage() {
           >
             <PlusIcon className="h-6 sm:h-8 w-6 sm:w-8 mr-1 text-white" />
           </Link>
+          <button
+            onClick={handleLogout}
+            className="h-8 sm:h-10 mb-2.2 mr-3"
+            size="icon"
+            variant="outline"
+            title="Log Out"
+          >
+            <LogOutIcon className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
+          </button>
         </div>
       </div>
 
