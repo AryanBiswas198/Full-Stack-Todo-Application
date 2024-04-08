@@ -57,20 +57,18 @@ export default function Home() {
 
         <div className="flex justify-center mt-10">
           <div className="flex flex-col items-center gap-4">
-            <Link to="loginPage">
-              <button
-                className={`rounded-full border-2 border-richblack-50 h-12 w-36 bg-white text-black hover:bg-black hover:text-white`}
-                variant="outline"
-              >
-                Login
-              </button>
-            </Link>
-
             <Link to="signupPage">
               <button
-                className={`rounded-full border-2 border-richblack-50 h-12 w-36 bg-white text-black hover:bg-black hover:text-white`}
+                className="w-full px-4 py-2 border border-black text-white font-semibold rounded-md focus:outline-none transition-all duration-300 ease-in-out"
+            style={{
+              background: "linear-gradient(to right, #667EEA, #764BA2)",
+              backgroundSize: "200% auto",
+              backgroundPosition: "right center",
+            }}
+            onMouseEnter={(e) => e.target.style.backgroundPosition = "right center"}
+            onMouseLeave={(e) => e.target.style.backgroundPosition = "left center"}
               >
-                Sign up
+                Create your first todo
               </button>
             </Link>
           </div>
