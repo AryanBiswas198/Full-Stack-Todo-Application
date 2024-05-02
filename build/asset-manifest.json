@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/static/css/main.e51e0c56.css",
+    "main.js": "/static/js/main.169c6ae3.js",
+    "static/media/SignupMemoji.png": "/static/media/SignupMemoji.33296e0187256cc1297c.png",
+    "static/media/LoginMemoji.png": "/static/media/LoginMemoji.09dcda5046ac95633756.png",
+    "static/media/ThinkMemoji.png": "/static/media/ThinkMemoji.852875df211139817ca4.png",
+    "index.html": "/index.html",
+    "main.e51e0c56.css.map": "/static/css/main.e51e0c56.css.map",
+    "main.169c6ae3.js.map": "/static/js/main.169c6ae3.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e51e0c56.css",
+    "static/js/main.169c6ae3.js"
+  ]
+}
