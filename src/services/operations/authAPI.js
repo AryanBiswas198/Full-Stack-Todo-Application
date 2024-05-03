@@ -16,7 +16,8 @@ export function sendOtp(email, navigate){
         const toastId = toast.loading("Loading.....");
         dispatch(setLoading(true));
         try{
-            const response = await apiConnector("POST", "http://localhost:4000/api/v1/auth/sendotp", {
+            // "http://localhost:4000/api/v1/auth/sendotp"
+            const response = await apiConnector("POST", SENDOTP_API, {
                 email,
                 checkUserPresent: true,
             });
