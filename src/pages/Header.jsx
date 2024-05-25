@@ -14,7 +14,7 @@ const Header = () => {
             WebkitTextFillColor: "transparent",
           }}
         >
-          Tasks
+          Taskify
         </span>
       </Link>
       <nav className="ml-auto flex items-center gap-x-6 md:gap-x-10">
